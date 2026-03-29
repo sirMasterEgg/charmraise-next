@@ -1,26 +1,165 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  /* Framer reference: black canvas, Satoshi-scale type (see design-ref/tokens.json) */
+  --color-bg: #000000;
+  --color-surface: #0a0a0f;
+  --color-surface-elevated: #12121a;
+  --color-border: #1e1e2a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9a9aaa;
+  --color-text-hero-subtle: #cccccc;
+  --color-surface-glass: rgb(13 13 13 / 0.8);
+  --color-surface-glass-hover: rgb(13 13 13 / 0.95);
+  /* Primary CTA / hero purple */
+  --color-accent: #814ac8;
+  --color-accent-light: #df7afe;
+  --font-sans: var(--font-satoshi);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Service graphics mockups (Framer reference) */
+  --service-border: #222222;
+  --service-surface-5: rgba(255, 255, 255, 0.05);
+  --service-text-muted: rgba(255, 255, 255, 0.75);
+  --service-accent: rgb(129, 74, 200);
+  --service-accent-soft: rgba(129, 74, 200, 0.6);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+@utility animate-marquee-reverse {
+  animation: marquee-reverse 30s linear infinite;
+}
+
+@utility shadow-hero-cta {
+  box-shadow:
+    0 30px 30px -3.75px rgb(0 0 0 / 0.05),
+    0 13.65px 13.65px -3.125px rgb(0 0 0 / 0.106),
+    0 6.87px 6.87px -2.5px rgb(0 0 0 / 0.125),
+    0 3.62px 3.62px -1.875px rgb(0 0 0 / 0.137),
+    0 1.81px 1.81px -1.25px rgb(0 0 0 / 0.145),
+    0 0.71px 0.71px -0.625px rgb(0 0 0 / 0.15);
+}
+
+@keyframes marquee-y {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@utility animate-marquee-y {
+  animation: marquee-y 22s linear infinite;
+}
+
+@keyframes cursor-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@utility animate-cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes hero-orb-rotate-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hero-orb-rotate-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@utility animate-hero-orb-slow {
+  animation: hero-orb-rotate-cw 32s linear infinite;
+}
+
+@utility animate-hero-orb-fast {
+  animation: hero-orb-rotate-ccw 24s linear infinite;
+}
+
+@keyframes sales-title-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-sales-title-icon {
+  /* Framer reference: ~1 full turn every ~4s (JS-driven on live site; CSS close match) */
+  transform-origin: center center;
+  animation: sales-title-icon-spin 4s linear infinite;
+}
+
+/* Deterministic design screenshots + calmer UX when reduced motion is requested */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-reverse,
+  .animate-marquee-y,
+  .animate-cursor-blink,
+  .animate-hero-orb-slow,
+  .animate-hero-orb-fast,
+  .animate-sales-title-icon {
+    animation: none !important;
+  }
+}
+
+@utility badge-section {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: color-mix(in oklab, var(--color-accent) 30%, transparent);
+  background-color: color-mix(in oklab, var(--color-accent) 10%, transparent);
+  padding-inline: 1rem;
+  padding-block: 0.375rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  color: var(--color-accent);
 }
