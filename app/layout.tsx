@@ -6,6 +6,7 @@ import {
   SITE_META_DESCRIPTION,
   SITE_TAGLINE,
 } from "@/lib/site";
+import { SmoothScrollProvider } from "@/components/smooth-scroll-provider";
 import "./globals.css";
 
 const satoshi = localFont({
@@ -96,7 +97,9 @@ export default function RootLayout({
       lang="hu"
       className={`${satoshi.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-screen bg-bg text-text-primary">{children}</body>
+      <body className="min-h-screen bg-bg text-text-primary">
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      </body>
     </html>
   );
 }
